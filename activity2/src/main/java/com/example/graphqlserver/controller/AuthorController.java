@@ -1,7 +1,9 @@
 package com.example.graphqlserver.controller;
 
 import com.example.graphqlserver.dto.input.AddAuthorInput;
+import com.example.graphqlserver.dto.input.UpdateAuthorFirstNameInput;
 import com.example.graphqlserver.dto.output.AddAuthorPayload;
+import com.example.graphqlserver.dto.output.UpdateAuthorPayload;
 import com.example.graphqlserver.model.Author;
 import com.example.graphqlserver.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +30,24 @@ public class AuthorController {
     }
 
     @QueryMapping
-    public  Author authorById(@Argument("id") int id) {
+    public Author authorById(@Argument("id") int id) {
         return authorRepository.getAuthorById(id);
+    }
+
+    @QueryMapping
+    public List<Author> authorBylastName(@Argument String lastName) {
+        return authorRepository.getAuthorsByLastName(lastName);
     }
 
     @MutationMapping
     public AddAuthorPayload addAuthor(@Argument AddAuthorInput input) {
         var author = authorRepository.save(input.firstName(), input.lastName());
-        var out = new AddAuthorPayload(author);
-        return out;
+        return new AddAuthorPayload(author);
+    }
+
+    @MutationMapping
+    public UpdateAuthorPayload updateAuthorFirstName(@Argument UpdateAuthorFirstNameInput input) {
+        String oldName = authorRepository.updateFirstNameById(input.authorId(), input.newFirstName());
+        return new UpdateAuthorPayload(oldName);
     }
 }

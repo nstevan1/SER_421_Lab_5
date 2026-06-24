@@ -41,4 +41,25 @@ public class AuthorRepository {
         dummyAuthors.add(newAuthor);
         return newAuthor;
     }
+
+    public List<Author> getAuthorsByLastName(String lastName) {
+        List<Author> result = new ArrayList<>();
+        for (Author author : dummyAuthors) {
+            if (author.getLastName().equalsIgnoreCase(lastName)) {
+                result.add(author);
+            }
+        }
+        return result;
+    }
+
+    public String updateFirstNameById(int authorId, String newFirstName) {
+        for (Author author : dummyAuthors) {
+            if (author.getId() == authorId) {
+                String oldFirstName = author.getFirstName();
+                author.setFirstName(newFirstName);
+                return oldFirstName;
+            }
+        }
+        return null;
+    }
 }

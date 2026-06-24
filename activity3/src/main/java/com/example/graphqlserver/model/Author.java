@@ -1,48 +1,32 @@
 package com.example.graphqlserver.model;
 
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity
+@Table(name = "author")
 public class Author {
 
-    private int id;
-    private final String firstName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private List<Book> books = new ArrayList<>();
+    @Column(name = "first_name")
+    private String firstName;
 
-    public Author(int id, String firstName, String lastName, List<Book> books) {
-        this.id = id;
+    @Column(name = "last_name")
+    private String lastName;
+
+    public Author() {}
+
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = books;
     }
 
-    private final String lastName;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 }

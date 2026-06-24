@@ -50,4 +50,13 @@ public class BookRepository {
         return bookList;
     }
 
+    public String deleteByISBN(String isbn) {
+        for (int i = 0; i < dummyBooks.size(); i++) {
+            if (dummyBooks.get(i).getIsbn().equals(isbn)) {
+                dummyBooks.remove(i);
+                return isbn;
+            }
+        }
+        return null;
+    }
 }

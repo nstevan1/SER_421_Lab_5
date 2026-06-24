@@ -1,16 +1,12 @@
 # The root Query type defines the entry points for querying data.
 type Query {
-    # Fetch a list of authors.
     authors: [Author]
-
-    # Fetch an author by their unique ID.
     authorById(id: ID): Author
-
-    # Fetch a list of books.
+    authorBylastName(lastName: String): [Author]
     books: [Book]
-
-    # Fetch a book by its ISBN (International Standard Book Number).
     bookByISBN(isbn: String): Book
+    bookByAuthorId(authorId: ID): [Book]
+    bookTitlesByAuthorFirstName(firstName: String): [String]
 }
 
 # Represents a book in the system.
@@ -74,10 +70,26 @@ type AddBookPayload {
 }
 
 # The root Mutation type defines the entry points for mutating data.
-type Mutation {
-    # Add a new author to the system.
-    addAuthor(input: AddAuthorInput): AddAuthorPayload
+input UpdateAuthorFirstNameInput {
+    authorId: ID
+    newFirstName: String
+}
 
-    # Add a new book to the system.
+input DeleteBookInput {
+    isbn: String
+}
+
+type UpdateAuthorPayload {
+    authorName: String
+}
+
+type DeleteBookPayload {
+    isbn: String
+}
+
+type Mutation {
+    addAuthor(input: AddAuthorInput): AddAuthorPayload
     addBook(input: AddBookInput): AddBookPayload
+    updateAuthorFirstName(input: UpdateAuthorFirstNameInput): UpdateAuthorPayload
+    deleteBookByISBN(input: DeleteBookInput): DeleteBookPayload
 }
